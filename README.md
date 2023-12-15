@@ -35,3 +35,7 @@ ROM:64M
 no hd 
  
 system:other DOS
+
+
+# rference
+https://github.com/AlgorithMan-de
