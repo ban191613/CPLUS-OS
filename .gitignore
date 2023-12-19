@@ -3,3 +3,4 @@ mykernel.iso
 *.o
 ios/
 .gitgnore
+.code-workspace
