@@ -14,26 +14,29 @@ dataSegmentDescriptor(0,64*1024*1024,0x92)
 GlobalDescriptionTable::~GlobalDescriptionTable()
 {  
 }
+
 uint16_t GlobalDescriptionTable::DataSegmentDescriptor()
 {
     return(uint8_t*)&dataSegmentDescriptor-(uint8_t*)this;  //得到偏移字节数
 }
+
 uint16_t GlobalDescriptionTable::CodeSegmentDescriptor()
 {
     return(uint8_t*)&codeSegmentDescriptor-(uint8_t*)this;
 }
+
 GlobalDescriptionTable::SegmentDescriptor::SegmentDescriptor(uint32_t base,uint32_t limit,uint8_t type)
 {
     uint8_t* target=(uint8_t*)this;
-    if(limit<65536)
+    if(limit<1048576)   //1 byte 为颗粒度
     {
-        target[6]=0x80;
+        target[6]=0x40;  //设置32位
     }
-    else
+    else                        //4k为颗粒度
     {
         if((limit&0xfff)!=0xfff)
         {
-            limit=(limit>>12)-1;
+            limit=(limit>>12)-1;  
         }
         else
         {
@@ -41,6 +44,7 @@ GlobalDescriptionTable::SegmentDescriptor::SegmentDescriptor(uint32_t base,uint3
         }
         target[6]=0xc0;
     }
+    //limit is 20 bits
     target[0]=limit&0xff;
     target[1]=(limit>>8)&0xff;
     target[6]=(limit>>16)&0xff;

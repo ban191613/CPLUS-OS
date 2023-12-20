@@ -3,7 +3,7 @@ GPPPARAMS = -m32 -Iinclude -fno-use-cxa-atexit -fleading-underscore -fno-excepti
 ASPARAMS = --32
 LDPARAMS = -melf_i386 -no-pie
 
-objects = loader.o kernel.o gdt.o
+objects = loader.o kernel.o gdt.o port.o interrupts.o print.o
 
 %.o: %.cpp
 	g++ ${GPPPARAMS} -o $@ -c $<
@@ -26,12 +26,15 @@ mykernel.iso: mykernel.bin
 	echo 'set default=0' >> iso/boot/grub/grub.cfg
 	echo '' >> iso/boot/grub/grub.cfg
 	echo 'menuentry "my os" {' >> iso/boot/grub/grub.cfg
-	echo '  multiboot /boot/mykernel.bin' >> iso/boot/grub/grub.cfg
-	echo '  boot' >> iso/boot/grub/grub.cfg
+	echo 'multiboot /boot/mykernel.bin' >> iso/boot/grub/grub.cfg
+	echo 'boot' >> iso/boot/grub/grub.cfg
 	echo '}' >> iso/boot/grub/grub.cfg
 	grub-mkrescue --output=$@ iso
-	cp -a mykernel.iso /mnt/hgfs/share
+	cp -u mykernel.iso /mnt/hgfs/share
 
 .PHONY: clean
 clean:
 	rm -rf iso mykernel.bin  objects 
+run:
+	make clean
+	make mykernel.iso

@@ -1,0 +1,21 @@
+#ifndef __INTERRUPTS_H__
+#define __INTERRUPTS_H__
+
+#include "types.h"
+#include "port.h"
+
+
+class InterruptManger
+{
+private:
+
+public:
+    InterruptManger();
+    ~InterruptManger();
+    static uint32_t handleInterrupt(uint8_t interruptNumber,uint32_t esp);
+};
+
+
+
+
+#endif // !__INTERRUPTS_H__

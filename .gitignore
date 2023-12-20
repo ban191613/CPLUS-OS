@@ -1,6 +1,9 @@
 mykernel.bin
 mykernel.iso
 *.o
-ios/
-.gitgnore
-.code-workspace
+.gitignore
+CPLUS-OS.code-workspace
+
+iso/
+.vscode/
+

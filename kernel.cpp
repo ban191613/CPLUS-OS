@@ -1,14 +1,7 @@
 #include "types.h"
 #include "gdt.h"
-void printf(const char* str)
-{
-    static uint16_t *VideoMemory = (uint16_t*)0xb8000;
-    for (int i = 0; str[i]; i++)
-    {
-        VideoMemory[i] = (VideoMemory[i] & 0xFF00) | str[i];
-    }
-}
-
+#include "port.h"
+#include "print.h"
 typedef void (*constructor)();
 extern "C" constructor start_ctors;
 extern "C" constructor end_ctors;
@@ -20,9 +13,9 @@ extern "C" void callConstructors() {
 }
 
 extern "C" void kernelMain(void* multiboot_structure, uint32_t magicnumber) {
-    printf((char *)"hellow os!");
+    printf("hellow os!");
     GlobalDescriptionTable gdt;
-    printf((char *)"hellow gdt!");
-
+    printf("hellow gdt!\n");
+    
     while (1);
 }
