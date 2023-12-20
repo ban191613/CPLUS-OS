@@ -3,7 +3,7 @@ GPPPARAMS = -m32 -Iinclude -fno-use-cxa-atexit -fleading-underscore -fno-excepti
 ASPARAMS = --32
 LDPARAMS = -melf_i386 -no-pie
 
-objects = loader.o kernel.o gdt.o port.o interrupts.o print.o
+objects = loader.o kernel.o gdt.o port.o interrupts.o interruption.o print.o
 
 %.o: %.cpp
 	g++ ${GPPPARAMS} -o $@ -c $<
@@ -34,7 +34,7 @@ mykernel.iso: mykernel.bin
 
 .PHONY: clean
 clean:
-	rm -rf iso mykernel.bin  objects 
+	rm -r iso mykernel.bin mykernel.iso ${objects} 
 run:
 	make clean
 	make mykernel.iso

@@ -18,7 +18,7 @@ public:
         uint16_t base_l;
         uint8_t base_m;
         uint8_t type; 
-        uint8_t falg_limit_h;  //可以使用结构体  位域
+        uint8_t flag_limit_h;  //可以使用结构体  位域
         uint8_t base_h;
     }__attribute__((packed));
     SegmentDescriptor nullSegmentDescriptor;
@@ -29,8 +29,8 @@ public:
     
     
 
-    uint16_t CodeSegmentDescriptor();
-    uint16_t DataSegmentDescriptor();
+    uint16_t CodeSegmentSelector();
+    uint16_t DataSegmentSelector();
 
 private:
     

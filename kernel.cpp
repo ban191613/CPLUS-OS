@@ -2,6 +2,7 @@
 #include "gdt.h"
 #include "port.h"
 #include "print.h"
+#include "interrupts.h"
 typedef void (*constructor)();
 extern "C" constructor start_ctors;
 extern "C" constructor end_ctors;
@@ -12,10 +13,10 @@ extern "C" void callConstructors() {
     }
 }
 
-extern "C" void kernelMain(void* multiboot_structure, uint32_t magicnumber) {
-    printf("hellow os!");
+extern "C" void kernelMain(void* multiBoot_structure, uint32_t magicNumber) {
+    printf("hi os!");
     GlobalDescriptionTable gdt;
-    printf("hellow gdt!\n");
-    
+    printf("hi gdt!\n");
+    InterruptManger idt(0x20,&gdt);
     while (1);
 }

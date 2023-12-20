@@ -15,12 +15,12 @@ GlobalDescriptionTable::~GlobalDescriptionTable()
 {  
 }
 
-uint16_t GlobalDescriptionTable::DataSegmentDescriptor()
+uint16_t GlobalDescriptionTable::DataSegmentSelector()
 {
     return(uint8_t*)&dataSegmentDescriptor-(uint8_t*)this;  //得到偏移字节数
 }
 
-uint16_t GlobalDescriptionTable::CodeSegmentDescriptor()
+uint16_t GlobalDescriptionTable::CodeSegmentSelector()
 {
     return(uint8_t*)&codeSegmentDescriptor-(uint8_t*)this;
 }
