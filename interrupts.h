@@ -4,10 +4,24 @@
 #include "types.h"
 #include "port.h"
 #include "gdt.h"
+class InterruptManger;
+class InterruptHandle
+{
+    
+private:
+    InterruptManger* interruptManger;
+    uint8_t interruptNumber;
+    InterruptHandle(uint8_t interruptNumber,InterruptManger* interruptManger);
+    ~InterruptHandle();
+public:
+    uint32_t HandleInterrupt(uint8_t esp);
+    
+};
 
 class InterruptManger
 {
 private:
+    static InterruptManger* activeInterruptManger;
     struct GateDescriptor
     {
     public:
@@ -33,14 +47,18 @@ private:
         uint32_t base;
     }__attribute__((packed));
     
+    uint16_t hardwareInterruptOffset;
     
 public:   
     
     InterruptManger(uint16_t hardwareInterruptOffset, GlobalDescriptionTable *gdt);
     ~InterruptManger();
     void Active();
-   
+    void DeActive();
 protected:
+    friend class InterruptHandle;
+    InterruptHandle* handles[256];
+    uint32_t DoHandleInterrupt(uint8_t interruptNumber,uint32_t esp);
     static uint32_t HandleInterrupt(uint8_t interruptNumber,uint32_t esp);
     //define in interruption.s
     static void InterruptIgnore();

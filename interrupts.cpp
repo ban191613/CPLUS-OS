@@ -1,18 +1,49 @@
 #include "interrupts.h"
 #include "print.h"
 #include "port.h"
+
 InterruptManger::GateDescriptor InterruptManger::interruptDescriptorTable[256];
+
+InterruptManger *InterruptManger::activeInterruptManger=nullptr;
+
+
+
+
+
+InterruptHandle::InterruptHandle(uint8_t interruptNumber,InterruptManger* interruptManger)
+    :interruptNumber(interruptNumber),interruptManger(interruptManger)
+{
+    interruptManger->handles[interruptNumber]=this;
+}
+
+InterruptHandle::~InterruptHandle()
+{
+    if(interruptManger->handles[interruptNumber]==this)
+    {
+        interruptManger->handles[interruptNumber]==nullptr;
+    }
+}
+
+uint32_t  InterruptHandle::HandleInterrupt(uint8_t esp)
+{
+    return esp;
+}
+
+
+
+
 InterruptManger::InterruptManger(uint16_t hardwareInterruptOffset, GlobalDescriptionTable *gdt)
     :picMasterCommand(0x20),
     picMasterData(0x21),
     picSlaveCommand(0xA0),
-    picSlaveData(0xA1)
+    picSlaveData(0xA1),
+    hardwareInterruptOffset(hardwareInterruptOffset)
 {
-    
     uint16_t codeSegment = gdt->CodeSegmentSelector();
     const uint8_t IDT_INTERRUPT_GATE=0xe;  
     for (uint16_t i = 0; i < 256; i++) {
         SetInterruptDescriptorTableEntry(i, codeSegment, nullptr, 0, IDT_INTERRUPT_GATE);
+        handles[i]=nullptr;
     }
     
     
@@ -85,14 +116,61 @@ InterruptManger::~InterruptManger()
 {
 
 }
+
 void InterruptManger::Active()
 {
+    if(activeInterruptManger!=nullptr)
+    {
+        activeInterruptManger->DeActive();
+    }
+    activeInterruptManger=this;
     asm("sti");
+}
+void InterruptManger::DeActive()
+{   
+    if(activeInterruptManger==this)
+    {
+        activeInterruptManger=0;
+        asm("cli");
+    }
+    
 }
 uint32_t InterruptManger::HandleInterrupt(uint8_t interruptNumber,uint32_t esp)
 {
-    uint32_t result;
-    printf("interrupt!");
+    if(activeInterruptManger!=nullptr)
+    {
+        return activeInterruptManger->DoHandleInterrupt(interruptNumber,esp);
+    }
+    return esp;
+   
+    
+}
+uint32_t InterruptManger::DoHandleInterrupt(uint8_t interruptNumber,uint32_t esp)
+{
+    
+    if(handles[interruptNumber]!=nullptr)
+    {
+        printf("handle interrupt!");
+        esp=handles[interruptNumber]->HandleInterrupt(esp);
+        
+    }
+    else
+    {
+        printf("unHandle interrupt!");
+    }
+    const char* hex="0123456789abcdef";
+    char* result="0x00";
+    result[3]=hex[interruptNumber&0xf];
+    result[2]=hex[(interruptNumber>>4)&0xf];
+    printf((const char*)result);
+    if(hardwareInterruptOffset<=interruptNumber&&interruptNumber<hardwareInterruptOffset+16)
+    {
+        picMasterCommand.write(0x20);
+        if(hardwareInterruptOffset<=interruptNumber)
+        {
+            picSlaveCommand.write(0x20);
+        }
+    }
     return esp;  
 }
 void InterruptManger::SetInterruptDescriptorTableEntry(uint8_t interruptNumber,
