@@ -8,7 +8,7 @@
 class InterruptManger
 {
 private:
-    class GateDescriptor
+    struct GateDescriptor
     {
     public:
         uint16_t handlerAddressLowBits;
@@ -27,16 +27,21 @@ private:
             );
     
     static GateDescriptor interruptDescriptorTable[256];
+    struct InterruptDescriptorTablePoint
+    {
+        uint16_t size;
+        uint32_t base;
+    }__attribute__((packed));
+    
     
 public:   
     
-
     InterruptManger(uint16_t hardwareInterruptOffset, GlobalDescriptionTable *gdt);
     ~InterruptManger();
-    
-    static uint32_t HandleInterrupt(uint8_t interruptNumber,uint32_t esp);
+    void Active();
+   
 protected:
-    
+    static uint32_t HandleInterrupt(uint8_t interruptNumber,uint32_t esp);
     //define in interruption.s
     static void InterruptIgnore();
 
@@ -78,6 +83,11 @@ protected:
     static void HandleException0x11();
     static void HandleException0x12();
     static void HandleException0x13();
+
+    Port8BitSLow picMasterCommand;
+    Port8BitSLow picMasterData;
+    Port8BitSLow picSlaveCommand;
+    Port8BitSLow picSlaveData;
 };
 
 

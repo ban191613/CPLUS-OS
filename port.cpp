@@ -29,7 +29,7 @@ Port32Bit::Port32Bit(uint16_t portNumber)
 Port32Bit::~Port32Bit()
 {}
 
-void Port8Bit::wirte(uint8_t data)
+void Port8Bit::write(uint8_t data)
 {
     asm volatile("outb %0,%1":"=a"(data):"Nd"(portNumber));
 }
@@ -40,13 +40,13 @@ uint8_t Port8Bit::read()
     return result;
 }
 
-void Port8BitSLow::wirte(uint8_t data)
+void Port8BitSLow::write(uint8_t data)
 {
     asm volatile("outb %0,%1\njmp 1f\n1: jmp 1f\n1:":"=a"(data):"Nd"(portNumber));
 }
 
 
-void Port16Bit::wirte(uint16_t data)
+void Port16Bit::write(uint16_t data)
 {
     asm volatile("outw %0,%1":"=a"(data):"Nd"(portNumber));
 }
@@ -57,7 +57,7 @@ uint16_t Port16Bit::read()
     return result;
 }
 
-void Port32Bit::wirte(uint32_t data)
+void Port32Bit::write(uint32_t data)
 {
     asm volatile("outl %0,%1":"=a"(data):"Nd"(portNumber));
 }

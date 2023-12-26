@@ -17,6 +17,8 @@ extern "C" void kernelMain(void* multiBoot_structure, uint32_t magicNumber) {
     printf("hi os!");
     GlobalDescriptionTable gdt;
     printf("hi gdt!\n");
-    InterruptManger idt(0x20,&gdt);
+    InterruptManger interrupt(0x20,&gdt);
+    interrupt.Active();
+    printf("hi idt!\n");
     while (1);
 }

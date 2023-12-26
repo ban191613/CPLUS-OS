@@ -1,10 +1,11 @@
+.set IQR_BASE, 0x20
 .section .text
 .extern __ZN15InterruptManger15handleInterruptEhj
 
 .macro HandleInterruptRequest num
 .global   __ZN15InterruptManger26HandleInterruptRequest\num\()Ev
 __ZN15InterruptManger26HandleInterruptRequest\num\()Ev:
-    movl $\num,(interruptNumber)
+    movl $\num + IQR_BASE,(interruptNumber)
     jmp int_bootom
 .endm
 

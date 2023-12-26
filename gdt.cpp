@@ -47,7 +47,7 @@ GlobalDescriptionTable::SegmentDescriptor::SegmentDescriptor(uint32_t base,uint3
     //limit is 20 bits
     target[0]=limit&0xff;
     target[1]=(limit>>8)&0xff;
-    target[6]=(limit>>16)&0xff;
+    target[6]|=(limit>>16)&0xff;
 
     target[2]=base&&0xff;
     target[3]=(base>>8)&0xff;
