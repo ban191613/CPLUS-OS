@@ -1,6 +1,6 @@
 #ifndef __GDT_H__
 #define __GDT_H__
-#include "types.h"
+#include "common/types.h"
 class GlobalDescriptionTable
 {
 public:

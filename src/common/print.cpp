@@ -1,4 +1,4 @@
-#include "print.h"
+#include "common/print.h"
 uint16_t *VideoMemory = (uint16_t*)0xb8000;
 void printf(const char* str)
 {

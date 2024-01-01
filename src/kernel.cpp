@@ -1,11 +1,11 @@
 #include "gdt.h"
-#include "types.h"
-#include "print.h"
-#include "port.h"
-#include "interrupts.h"
-#include "keyboard.h"
-#include "mouse.h"
-#include "driver.h"
+#include "common/types.h"
+#include "common/print.h"
+#include "hardWareCommunication/port.h"
+#include "hardWareCommunication/interrupts.h"
+#include "drivers/keyboard.h"
+#include "drivers/mouse.h"
+#include "drivers/driver.h"
 typedef void (*constructor)();
 extern "C" constructor start_ctors;
 extern "C" constructor end_ctors;

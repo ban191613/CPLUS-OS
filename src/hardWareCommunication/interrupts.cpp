@@ -1,6 +1,6 @@
-#include "interrupts.h"
-#include "print.h"
-#include "port.h"
+#include "hardWareCommunication/interrupts.h"
+#include "common/print.h"
+#include "hardWareCommunication/port.h"
 
 InterruptManger::GateDescriptor InterruptManger::interruptDescriptorTable[256];
 

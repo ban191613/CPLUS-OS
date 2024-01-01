@@ -3,12 +3,38 @@ GPPPARAMS = -m32 -Iinclude -fno-use-cxa-atexit -fleading-underscore -fno-excepti
 ASPARAMS = --32
 LDPARAMS = -melf_i386 -no-pie
 
-objects = loader.o kernel.o gdt.o port.o interrupts.o interruption.o print.o keyboard.o mouse.o driver.o
+objects = obj/loader.o \
+		  obj/kernel.o \
+          obj/gdt.o \
+		  obj/common/print.o \
+          obj/drivers/driver.o \
+		  obj/drivers/keyboard.o \
+          obj/drivers/mouse.o \
+          obj/hardWareCommunication/port.o \
+          obj/hardWareCommunication/interruption.o \
+          obj/hardWareCommunication/interrupts.o 
+# 		  obj/memorymanagement.o \
+# 		  obj/hardWareCommunication/pci.o \
+# 		  obj/multitasking.o \
+# 		  obj/drivers/amd_am79c973.o \
+# 		  obj/drivers/vga.o \
+# 		  obj/gui/widget.o \
+# 		  obj/gui/window.o \
+# 		  obj/gui/desktop.o \
+# 		  obj/net/etherframe.o \
+# 		  obj/net/arp.o \
+# 		  obj/net/ipv4.o \
+# 		  obj/net/icmp.o \
+# 		  obj/net/udp.o \
+# 		  obj/net/tcp.o \
+          
 
-%.o: %.cpp
+obj/%.o: src/%.cpp
+	mkdir -p $(@D)
 	g++ ${GPPPARAMS} -o $@ -c $<
 
-%.o: %.s
+obj/%.o: src/%.s
+	mkdir -p $(@D)	
 	as ${ASPARAMS} -o $@ $<
 
 mykernel.bin: linker.ld ${objects}
@@ -34,7 +60,7 @@ mykernel.iso: mykernel.bin
 
 .PHONY: clean
 clean:
-	rm -r iso mykernel.bin mykernel.iso ${objects} 
+	rm -r iso mykernel.bin mykernel.iso obj
 run:
 	make clean
 	make mykernel.iso

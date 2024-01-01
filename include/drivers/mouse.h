@@ -1,10 +1,10 @@
 #ifndef __MOUSE_H__
 #define __MOUSE_H__
-#include "types.h"
-#include "interrupts.h"
-#include "port.h"
-#include "print.h"
-#include "driver.h"
+#include "common/types.h"
+#include "hardWareCommunication/interrupts.h"
+#include "hardWareCommunication/port.h"
+#include "common/print.h"
+#include "drivers/driver.h"
 
 
 class MouseEventHandler

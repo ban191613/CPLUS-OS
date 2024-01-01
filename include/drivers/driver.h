@@ -1,6 +1,6 @@
 #ifndef __DRIVER_H__
 #define __DRIVER_H__
-#include "types.h"
+#include "common/types.h"
 
 class Driver
 {

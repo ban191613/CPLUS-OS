@@ -1,10 +1,10 @@
 #ifndef __KEYBOARD_H__
 #define __KEYBOARD_H__
-#include "types.h"
-#include "interrupts.h"
-#include "port.h"
-#include "driver.h"
-#include "print.h"
+#include "common/types.h"
+#include "hardWareCommunication/interrupts.h"
+#include "hardWareCommunication/port.h"
+#include "drivers/driver.h"
+#include "common/print.h"
 
 
 class KeyBoardEventHandler

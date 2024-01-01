@@ -1,6 +1,6 @@
 #if !defined(__PRINT_H__)
 #define __PRINT_H__
-#include "types.h"
+#include "common/types.h"
 
 extern uint16_t *VideoMemory;
 void printf(const char *str);

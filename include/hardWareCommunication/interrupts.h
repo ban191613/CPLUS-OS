@@ -1,8 +1,8 @@
 #ifndef __INTERRUPTS_H__
 #define __INTERRUPTS_H__
 
-#include "types.h"
-#include "port.h"
+#include "common/types.h"
+#include "hardWareCommunication/port.h"
 #include "gdt.h"
 class InterruptManger;
 class InterruptHandler
