@@ -12,7 +12,8 @@ objects = obj/loader.o \
           obj/drivers/mouse.o \
           obj/hardWareCommunication/port.o \
           obj/hardWareCommunication/interruption.o \
-          obj/hardWareCommunication/interrupts.o 
+          obj/hardWareCommunication/interrupts.o \
+		  obj/hardWareCommunication/pci.o 
 # 		  obj/memorymanagement.o \
 # 		  obj/hardWareCommunication/pci.o \
 # 		  obj/multitasking.o \

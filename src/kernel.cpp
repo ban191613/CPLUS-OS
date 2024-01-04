@@ -3,9 +3,11 @@
 #include "common/print.h"
 #include "hardWareCommunication/port.h"
 #include "hardWareCommunication/interrupts.h"
+#include "hardWareCommunication/pci.h"
 #include "drivers/keyboard.h"
 #include "drivers/mouse.h"
 #include "drivers/driver.h"
+
 typedef void (*constructor)();
 extern "C" constructor start_ctors;
 extern "C" constructor end_ctors;
@@ -34,7 +36,8 @@ extern "C" void kernelMain(void *multiBoot_structure, uint32_t magicNumber)
     driverManger.AddDriver(&mouse);
     driverManger.ActivateAll();
     interrupt.Active();
-
+    PeripheralCommentInterconnectControl pic;
+    pic.SelectDriver(&driverManger);
     while (1)
     {
         // printf("1");

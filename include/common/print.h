@@ -5,4 +5,6 @@
 extern uint16_t *VideoMemory;
 void printf(const char *str);
 void printfHex(uint8_t key);
+void printfHex(uint16_t key);
+void printfHex(uint32_t key);
 #endif // __PRINT_H__
