@@ -3,18 +3,18 @@
 #include "common/types.h"
 class GlobalDescriptionTable
 {
-public:
+  public:
     GlobalDescriptionTable();
     ~GlobalDescriptionTable();
 
     class SegmentDescriptor
     {
-    public:
+      public:
         SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t type);
         uint32_t Base();
         uint32_t Limit();
 
-    private:
+      private:
         uint16_t limit_l;
         uint16_t base_l;
         uint8_t base_m;

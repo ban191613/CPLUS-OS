@@ -23,10 +23,8 @@ void PrintKeyBoardEventHandler::OnKeyUp(char m_char)
     printf((const char *)&m_char);
 }
 KeyBoardDriver::KeyBoardDriver(InterruptManger *interruptManger, KeyBoardEventHandler *keyBoardHandler)
-    : InterruptHandler(0x01 + interruptManger->HardwareInterruptOffset(), interruptManger),
-      dataProt(0x60),
-      commandPort(0x64),
-      keyBoardHandler(keyBoardHandler)
+    : InterruptHandler(0x01 + interruptManger->HardwareInterruptOffset(), interruptManger), dataProt(0x60),
+      commandPort(0x64), keyBoardHandler(keyBoardHandler)
 {
     this->Reset();
 }

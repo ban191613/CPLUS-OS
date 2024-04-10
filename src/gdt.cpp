@@ -18,12 +18,12 @@ GlobalDescriptionTable::~GlobalDescriptionTable()
 
 uint16_t GlobalDescriptionTable::DataSegmentSelector()
 {
-    return ((uint8_t *)&dataSegmentDescriptor - (uint8_t *)this) >> 3; // 得到偏移字节数
+    return ((uint8_t *)&dataSegmentDescriptor - (uint8_t *)this); // 得到偏移字节数
 }
 
 uint16_t GlobalDescriptionTable::CodeSegmentSelector()
 {
-    return ((uint8_t *)&codeSegmentDescriptor - (uint8_t *)this) >> 3;
+    return ((uint8_t *)&codeSegmentDescriptor - (uint8_t *)this);
 }
 
 GlobalDescriptionTable::SegmentDescriptor::SegmentDescriptor(uint32_t base, uint32_t limit, uint8_t type)

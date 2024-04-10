@@ -1,5 +1,5 @@
 #include "common/print.h"
-uint16_t *VideoMemory = (uint16_t *)0xb8000;
+uint16_t *VideoMemory = (uint16_t *)0xb8000; // 显示器内存开始地址地址
 void printf(const char *str)
 {
 
@@ -36,6 +36,28 @@ void printf(const char *str)
         }
     }
 }
+void printf(uint8_t num)
+{
+    const char *dex = "0123456789";
+    char *f = (char *)" ";
+    while (num)
+    {
+        f[0] = dex[num % 10];
+        printf((const char *)f);
+        num = num / 10;
+    }
+}
+void printf(uint16_t num)
+{
+    const char *dex = "0123456789";
+    char *f = (char *)" ";
+    while (num)
+    {
+        f[0] = dex[num % 10];
+        printf((const char *)f);
+        num = num / 10;
+    }
+}
 void printfHex(uint8_t key)
 {
     char *foo = (char *)"00";
@@ -46,11 +68,16 @@ void printfHex(uint8_t key)
 }
 void printfHex(uint16_t key)
 {
-    printfHex((uint8_t)(key >> 8));
     printfHex((uint8_t)(key));
+    printfHex((uint8_t)(key >> 8));
 }
 void printfHex(uint32_t key)
 {
-    printfHex((uint16_t)(key >> 16));
     printfHex((uint16_t)(key));
+    printfHex((uint16_t)(key >> 16));
+}
+void printfHex(uint64_t key)
+{
+    printfHex((uint32_t)(key));
+    printfHex((uint32_t)(key >> 32));
 }

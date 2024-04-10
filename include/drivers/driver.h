@@ -5,26 +5,25 @@
 class Driver
 {
 
-public:
+  public:
     Driver();
-    ~Driver();
 
-    virtual void Activate()=0;
-    virtual void Reset()=0;
-    virtual void Deactivate()=0;
+    ~Driver(); // C++  linker文件无法设置虚函数，会报错
+    virtual void Activate() = 0;
+    virtual void Reset() = 0;
+    virtual void Deactivate() = 0;
 };
 class DriverManger
 {
-public:
+  public:
     DriverManger();
     ~DriverManger();
     void AddDriver(Driver *driver);
     void ActivateAll();
-protected:
-    Driver * drivers[256];
+    Driver *drivers[256];
+
+  protected:
     int numDrivers;
 };
-
-
 
 #endif // !__DRIVER_H__

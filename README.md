@@ -1,6 +1,6 @@
 # Ubuntu 22.04 min-install
 
-
+``` shell
     sudo apt install make 
 
     sudo apt install g++
@@ -15,7 +15,8 @@
 
     sudo apt-get purge --auto-remove open-vm-tools
 
-
+```
+``` shell
     vmware-hgfsclient
 
     sudo mkdir /mnt/hgfs
@@ -30,19 +31,22 @@
     
         .host:/  /mnt/hgfs  fuse.vmhgfs-fuse  allow_other  0  0
 
-make clean
+    make clean
 
-make mykernel.iso
-
-
+    make mykernel.iso
+```
 # Virutual Box  version 6.1
 
 ROM:64M  
 
-no hd 
+no hard disk 
  
 system:other DOS
 
-
-# Rference
+## code style
+``` shell
+clang-format -style=Microsoft -dump-config > .clang-format
+```
+# Reference
 https://github.com/AlgorithMan-de
+

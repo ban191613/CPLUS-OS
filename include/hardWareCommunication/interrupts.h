@@ -2,74 +2,73 @@
 #define __INTERRUPTS_H__
 
 #include "common/types.h"
-#include "hardWareCommunication/port.h"
 #include "gdt.h"
+#include "hardWareCommunication/port.h"
+#include "multitask.h"
+
 class InterruptManger;
 class InterruptHandler
 {
-public:
-    virtual uint32_t HandleInterrupt(uint32_t esp);   
-protected:
-    InterruptHandler(uint8_t interruptNumber,InterruptManger* interruptManger);
+  public:
+    virtual uint32_t HandleInterrupt(uint32_t esp);
+
+  protected:
+    InterruptHandler(uint8_t interruptNumber, InterruptManger *interruptManger);
     ~InterruptHandler();
 
-
-    InterruptManger* interruptManger;
+    InterruptManger *interruptManger;
     uint8_t interruptNumber;
-   
-    
 };
 
 class InterruptManger
 {
-   friend class InterruptHandler;
-public:   
-    InterruptManger(uint16_t hardwareInterruptOffset, GlobalDescriptionTable *gdt);
+    friend class InterruptHandler;
+
+  public:
+    InterruptManger(uint16_t hardwareInterruptOffset, GlobalDescriptionTable *gdt, TaskManger *taskManger);
     ~InterruptManger();
 
     void Active();
     void DeActive();
     uint16_t HardwareInterruptOffset();
-protected:
-    static InterruptManger* activeInterruptManger;
-    InterruptHandler* handles[256];
+
+  protected:
+    static InterruptManger *activeInterruptManger;
+    TaskManger *taskManger;
+    InterruptHandler *handlers[256];
     struct GateDescriptor
     {
-    public:
+      public:
         uint16_t handlerAddressLowBits;
         uint16_t gdt_codeSegmentSelector;
         uint8_t reserved;
         uint8_t access;
         uint16_t handlerAddressHighBits;
-        
-    }__attribute__((packed));
 
-    static void SetInterruptDescriptorTableEntry(
-                uint8_t interruptNumber,
-                uint16_t codeSegmentSelectorOffset,
-                void (*handler)(),
-                uint8_t DescriptorPrivilegeLevel,
-                uint8_t DescriptorType
-            );
-    
+    } __attribute__((packed));
+
+    static void SetInterruptDescriptorTableEntry(uint8_t interruptNumber, uint16_t codeSegmentSelectorOffset,
+                                                 void (*handler)(), uint8_t DescriptorPrivilegeLevel,
+                                                 uint8_t DescriptorType);
+
     static GateDescriptor interruptDescriptorTable[256];
     struct InterruptDescriptorTablePoint
     {
         uint16_t size;
         uint32_t base;
-    }__attribute__((packed));
-    
-    
+    } __attribute__((packed));
+
     uint16_t hardwareInterruptOffset;
+
     static void InterruptIgnore();
-    static uint32_t HandleInterrupt(uint8_t interruptNumber,uint32_t esp);
-    
-    uint32_t DoHandleInterrupt(uint8_t interruptNumber,uint32_t esp);
-    
-    //define in interruption.s
+
+    static uint32_t HandleInterrupt(uint8_t interruptNumber, uint32_t esp);
+
+    uint32_t DoHandleInterrupt(uint8_t interruptNumber, uint32_t esp);
+
+    // define in interruption.s
 
     static void InterruptTest();
-    
 
     static void HandleInterruptRequest0x00();
     static void HandleInterruptRequest0x01();
@@ -115,8 +114,5 @@ protected:
     Port8BitSLow picSlaveCommand;
     Port8BitSLow picSlaveData;
 };
-
-
-
 
 #endif // !__INTERRUPTS_H__

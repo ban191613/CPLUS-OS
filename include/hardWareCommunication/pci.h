@@ -4,8 +4,25 @@
 #include "common/types.h"
 #include "hardWareCommunication/interrupts.h"
 #include "drivers/driver.h"
+#include "drivers/amd_am79c973.h"
 #include "common/print.h"
+#include "memorymanger.h"
+
 class PeripheralCommentInterconnectDeviceDescriptor;
+
+enum BaseAddressRegisterType
+{
+    MemoryMapping = 0,
+    InputOutput = 1,
+};
+class BassAddressRegister
+{
+public:
+    bool prefectAble;
+    uint8_t *address;
+    uint32_t size;
+    BaseAddressRegisterType type;
+};
 class PeripheralCommentInterconnectControl
 {
 
@@ -18,8 +35,12 @@ public:
 
     bool DeviceHasFunction(uint8_t bus, uint8_t device);
 
-    void SelectDriver(DriverManger *driverManger);
+    void SelectDriver(DriverManger *driverManger, InterruptManger *interruptManger);
     PeripheralCommentInterconnectDeviceDescriptor GetDeviceDescriptor(uint8_t bus, uint8_t device, uint8_t function);
+
+    Driver *GetDriver(PeripheralCommentInterconnectDeviceDescriptor dev, InterruptManger *interruptManger);
+
+    BassAddressRegister GetBaseAddressResister(uint16_t bus, uint8_t device, uint8_t function, uint8_t bar);
 
 protected:
     Port32Bit dataPort;
@@ -27,14 +48,14 @@ protected:
 };
 class PeripheralCommentInterconnectDeviceDescriptor
 {
-
 public:
-    void friend PeripheralCommentInterconnectControl::SelectDriver(DriverManger *driverManger);
+    Driver friend *PeripheralCommentInterconnectControl::GetDriver(PeripheralCommentInterconnectDeviceDescriptor dev, InterruptManger *interruptManger);
+    void friend PeripheralCommentInterconnectControl::SelectDriver(DriverManger *driverManger, InterruptManger *interruptManger);
     PeripheralCommentInterconnectDeviceDescriptor friend PeripheralCommentInterconnectControl::GetDeviceDescriptor(uint8_t bus, uint8_t device, uint8_t function);
     PeripheralCommentInterconnectDeviceDescriptor();
     ~PeripheralCommentInterconnectDeviceDescriptor();
 
-private:
+    // protected:
     uint32_t portBase;
     uint32_t interrupt;
 

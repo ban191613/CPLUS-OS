@@ -1,8 +1,10 @@
 mykernel.bin
 mykernel.iso
+*.png
 *.o
 .gitignore
 CPLUS-OS.code-workspace
+.clang-format
 
 iso/
 .vscode/

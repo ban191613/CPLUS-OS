@@ -10,11 +10,16 @@ objects = obj/loader.o \
           obj/drivers/driver.o \
 		  obj/drivers/keyboard.o \
           obj/drivers/mouse.o \
+		  obj/drivers/amd_am79c973.o \
           obj/hardWareCommunication/port.o \
           obj/hardWareCommunication/interruption.o \
           obj/hardWareCommunication/interrupts.o \
-		  obj/hardWareCommunication/pci.o 
-# 		  obj/memorymanagement.o \
+		  obj/hardWareCommunication/pci.o \
+		  obj/multitask.o \
+		  obj/memorymanger.o \
+		  
+		  
+		  
 # 		  obj/hardWareCommunication/pci.o \
 # 		  obj/multitasking.o \
 # 		  obj/drivers/amd_am79c973.o \
